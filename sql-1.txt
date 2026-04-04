@@ -1,0 +1,564 @@
+use mydb;
+
+CREATE TABLE WORK (
+ID INT primary key,
+WORK_ID INT,
+WORK_TASK INT,
+WORK_PER DECIMAL(2,2), 
+foreign key (WORK_ID) references EMP(EMP_WORKID)
+);
+
+alter table WORK drop COLUMN WORK_LASTNAME;
+
+alter table WORK MODIFY COLUMN WORK_PER DECIMAL(5,2);
+
+alter table EMP ADD unique (EMP_WORKID);
+
+select * from work;
+
+insert into WORK(ID,WORK_ID,WORK_TASK,WORK_PER)
+values (1, 101234,25, 94.02),
+       (2, 101235,33, 87.12),
+       (3, 101236,55, 74.22),
+       (4, 101237,35, 41.71),
+       (5, 101238,63, 84.00),
+       (6, 101239,88, 10.12),
+       (7, 101240,17, 87.12),
+       (8, 101241,29, 98.83),
+       (9, 101242,10, 94.02),
+       (10,1012343,28, 94.02),
+       (11,1012344,93, 94.02),
+       (12,101245,50, 94.02);
+
+select * from EMP;
+
+
+
+insert into EMP (EMP_ID, EMP_FIRSTNAME, EMP_LASTNAME, EMP_AGE, EMP_GENDER, EMP_SALARY, EMP_WORKID)
+
+
+ values (4, 'RAJESH', 'CHINNNA', 35, 'M',554000,  101237),
+ (5, 'SURYA', 'PRAKASH', 31, 'M',82000,  101238),
+ (6, 'KAVITHA', 'MAMIDI', 42, 'F',75000,  101239),
+ (7, 'ANIL', 'PERUKU', 22, 'M',65000,  101240),
+ (8, 'VENU', 'GOPAL', 28, 'M',35000,  101241),
+ (9, 'SAI', 'RAM', 39, 'M',25000,  101242),
+ (10, 'HARI', 'TEJA', 28, 'M',45000,  1012343),
+ (11, 'VEDHASRI', 'YAGALA', 36, 'F',15000,  1012344),
+ (12, 'RAMESH', 'JELLA', 33, 'M',55000,  101245);
+ 
+ show TABLES;
+ 
+ 
+ 
+select * from SALES;
+
+drop table SALES;
+
+
+----- SCHOOL REPORTS----
+
+create table MARKS(
+STD_ID INT unique,
+STD_HALTICK INT primary key,
+STD_NAME VARCHAR(50),
+MATHS INT,
+ENGLISH INT,
+DBMS INT,
+GCP INT,
+KUBERNETS INT,
+TOTAL INT
+);
+
+select * from MARKS
+
+insert into MARKS(STD_ID,STD_HALTICK,STD_NAME,MATHS,ENGLISH,DBMS,GCP,KUBERNETS,TOTAL)
+values (1, 1231,'NARESH', 87,92,90,81,78,428),
+       (2, 1831,'SAIKRISHNA', 67,29,92,37,82,367),
+       (3, 1821,'SURENDRANATH', 88,62,60,82,26,372),
+       (4, 1277,'BANUPRASAD', 37,72,50,71,48,478),
+       (5, 1262,'MANOJKUMAR', 88,93,97,80,70,450),
+       (6, 1822,'BHARTHKUMAR', 86,82,40,91,98,419),
+       (7, 1282,'RANJITH', 87,48,60,88,88,403),
+       (8, 1920,'BALAJI', 93,62,70,91,98,398),
+       (9, 1207,'ROHIT', 77,94,80,81,78,420),
+       (10,1232,'ARUN', 57,62,70,91,88,392);
+
+create table ATTD (
+STD_ID INT,
+STD_ATTDC DECIMAL(5,2),
+foreign key (STD_ID) references MARKS(STD_ID)
+
+);
+
+alter table ATTD ADD unique key (STD_ID);
+
+show create table ATTD;
+
+select * from ATTD;
+
+insert into ATTD(STD_ID, STD_ATTDC)
+values (9, 97.99),
+       (1, 96.99),
+       (10, 91.99),
+       (5, 99.19),
+       (4, 87.10),
+       (7, 82.29),
+       (3, 77.09),
+       (6, 67.73),
+       (2, 57.75),
+       (8, 67.83);
+
+select * from ATTD;
+
+show TABLES;
+
+create table STDINFO (
+STD_ID INT unique KEY,
+STD_NAME VARCHAR(50),
+STD_ADDRS VARCHAR(50),
+STD_GENDER CHAR(1),
+STD_PHON BIGINT,
+STD_AGE INT,
+foreign key (STD_ID) references MARKS(STD_ID)
+);
+
+
+select * from STDINFO;
+
+select * from MARKS
+
+insert into STDINFO(STD_ID,STD_NAME,STD_ADDRS,STD_GENDER,STD_PHON,STD_AGE)
+values (9,"ROHIT",'HYD', 'M',929927283,22),
+       (1,"NARESH",'WRL', 'M',927847297,21),
+       (10,"ARUN",'HYD', 'M',9274926384,22),
+       (5,"MANOJKUMAR",'HYD', 'M',927485372,21),
+       (4,"BANUPRASAD",'KRM', 'M',9279348382,23),
+       (7,"RANJITH",'WRL', 'M',9728263733,21),
+       (3,"SURENDRANATH",'HYD', 'M',82633762637,22),
+       (6,"BHARATHKUMAR",'KRM', 'M',7233272635,22),
+       (2,"SAIKRISHNA",'HYD', 'M',8265252626,22),
+       (8,"BALAJI",'NZB', 'M',8235333521,22);
+       
+
+
+
+
+
+
+
+show TABLES;
+
+
+
+CREATE table CUSTOMER(
+CUST_ID INT primary KEY,
+CUST_FIRSTNAME VARCHAR(50),
+CUST_LASTNAME VARCHAR(50),
+CUST_PHONE VARCHAR(50),
+CUST_COUNTRY VARCHAR(20)
+);
+
+select * from CUSTOMER;
+
+insert into CUSTOMER(CUST_ID, CUST_FIRSTNAME, CUST_LASTNAME, CUST_PHONE, CUST_COUNTRY)
+values (0023,'JOHN','DOE', '+441-7937338','UK'),
+       (0043,'ROBERT','LUNA', '+1-832877738','USA'),
+       (0051,'DAVID','RIBSON', '+92-7335282938','UK'),
+       (0092,'JOHN','HARADT', '+1-6337338','UK'),
+       (0021,'BETTY','TAYLOR', '+71-927337338','UAE');
+
+
+
+
+CREATE  table PRODUCT(
+CUST_ID INT,
+CUST_PURCHASED VARCHAR(50),
+foreign key(CUST_ID) REFERENCES CUSTOMER(CUST_ID)
+); 
+
+select * from PRODUCT;
+
+insert into PRODUCT(CUST_ID, CUST_PURCHASED)
+values (0023,'GOLD'),
+       (0043,'GOLD'),
+       (0051,'PLATINUM'),
+       (0092,'SILVER'),
+       (0021,'GOLD');
+
+
+create table FEEDBACK(
+CUST_ID INT ,
+RATING INT primary KEY,
+PRODUCT VARCHAR(20),
+FEEDBACK VARCHAR(20),
+PLAN VARCHAR(20)
+);
+
+select * from FEEDBACK;
+
+insert into FEEDBACK(CUST_ID,RATING,PRODUCT,FEEDBACK,PLAN)
+values (0023,5,'GOOD','FINE','GOLD'),
+       (0051,2,'PRODDUCT IS OK','NOT EXPECTATION','GOLD'),
+       (0043,3,'GOOD','NICE','PLATINUM'),
+       (0092,0,'NOT GOOD','BAD','SILVER'),
+       (0021,4,'GOOD','FINE','GOLD');
+
+
+create table MM(
+STD_ID INT unique,
+STD_HALTICK INT primary key,
+STD_NAME VARCHAR(50),
+MATHS INT,
+ENGLISH INT,
+DBMS INT,
+GCP INT,
+KUBERNETS INT,
+TOTAL INT
+);
+
+
+---- REAMEING table NAME and COL NAME
+ 
+select * from MM;
+alter table MM RENAME MARKLIST;
+select * FROM MARKLIST;
+alter table MARKLIST rename MARKLT; 
+select * from MARKLT;
+
+alter table MARKLT rename column TOTAL to MAXTOL;
+alTER table MARKLT rename column MAXTOL to TOTAL;
+
+--- add COL
+alter table MARKLT add INT MAXTOL;
+alter table MARKLT add DOCKER INT;
+alter table MARKLT add JENKINS VARCHAR(50) unique key;
+
+-- MODIFY COL DATATYPE
+alter table MARKLT modify TOTAL BIGINT;
+alter table MARKLT ADD CONSTRAINT UNIQUE KEY(ENGLISH);
+alter table MARKLT ADD constraint not null(ENGLISH);
+
+
+show create table MARKLT;
+
+--- drop COL
+
+alter table MARKLT drop DOCKER;
+alter table MARKLT drop JENKINS;
+
+SELECT * from MARKLT;
+alter table MARKLT add 
+
+insert into MARKLT(STD_ID,STD_HALTICK,STD_NAME,MATHS,ENGLISH,DBMS,GCP,KUBERNETS,MAXTOL)
+values (1, 1211,'NARESH', 87,92,90,81,78,428),
+       (2, 1831,'SAIKRISHNA', 67,91,92,37,82,367),
+       (3, 1821,'SURENDRANATH', 88,82,60,82,26,372),
+       (4, 1277,'BANUPRASAD', 37,72,50,71,48,478),
+       (5, 1262,'MANOJKUMAR', 88,62,97,80,70,450),
+       (6, 1822,'BHARTHKUMAR', 86,95,40,91,98,419),
+       (7, 1282,'RANJITH', 87,98,82,88,88,403),
+       (8, 1920,'BALAJI', 93,12,70,91,98,398),
+       (9, 1207,'ROHIT', 77,99,80,81,78,420),
+       (10,1232,'ARUN', 57,2,70,91,88,392);
+
+TRUNCATE MARKLT;
+
+
+
+show TABLES;
+SELECT * from EMP;
+
+select MAX(EMP_SALARY) from EMP;
+show TABLES;
+
+
+
+--- delete rows and rollback &&& alias querys ----
+
+
+
+
+use mydb;
+show tables;
+
+select * from customer;
+
+select  cust_id as id, cust_firstname as user from customer;
+select cust_id as "cust id", cust_firstname as "first name", cust_lastname as "last name", cust_phone as "usr number" from customer;
+
+create table demo(
+id int,
+name varchar(50)
+);
+
+select * from demo;
+SET autocommit = 0;
+
+
+start TRANSACTION;
+
+SELECT ROW_COUNT();
+
+
+insert into demo values ( 5, "raju", 31);
+
+delete from demo where name = "ramu";
+
+rollback;
+
+
+
+show tables;
+
+select * from demo;
+alter table demo add column age int;
+update  demo set age=25 where id=2;
+update  demo set id=4 where age=35 and name="ramya";
+delete from demo where id =4;
+
+update demo set age=18 where id=1;
+update demo set age=29 where id=3;
+
+
+alter table demo change name user text;
+alter table demo add constraint primary key(id);
+
+---- drop query needs to check ------
+alter table demo drop  primary key;
+
+alter table demo add unique(id);
+alter table demo drop constraint unique key;
+alter table demo add constraint  default(age);
+
+alter table demo add column country varchar(50);
+
+alter table demo add constraint default(country);
+
+create table employe(
+emp_id int primary key,
+emp_name varchar(50),
+email varchar(50)
+);
+
+create table emplye_ifno(
+id int,
+name varchar(50),
+emp_id int
+);
+--- foreign key (emp_id) references employe(emp_id)
+
+alter table emplye_ifno add constraint foreign key(emp_id) references employe(emp_id);
+
+
+select * from emplye_ifno;
+
+SHOW INDEXES FROM demo;
+
+show databases;
+
+create database sql_prc;
+
+use sql_prc;
+
+CREATE TABLE EMPY
+(EMPNO int , 
+ENAME VARCHAR(10),
+JOB VARCHAR(9),
+MGR INT,
+HIRDATE DATE,
+SAL INT,
+COMM INT,
+DEPTNO INT,
+GRADE INT);
+
+select * from EMPY;
+
+
+INSERT INTO EMPY VALUES
+(7369, 'SMITH', 'CLERK', 7902, CAST('1980-12-17' as DATE), 800, NULL, 20, 5);
+
+INSERT INTO EMPY VALUES
+(7499, 'ALLEN', 'SALESMAN', 7698, CAST('1981-02-20' as DATE), 1600, 300, 30, 3),
+(7521, 'WARD', 'SALESMAN', 7698, CAST('1981-02-22' as DATE), 1250, 500, 30, 4),
+(7566, 'JONES', 'MANAGER', 7839, CAST('1981-04-02' as DATE), 2975, NULL, 20, 2),
+(7654, 'MARTIN', 'SALESMAN', 7698, CAST('1981-09-28' as DATE), 1250, 1400, 30, 4),
+(7698, 'BLAKE', 'MANAGER', 7839, CAST('1981-05-01' as DATE), 2850, NULL, 30, 2);
+
+INSERT INTO EMPY VALUES
+(7782, 'CLARK', 'MANAGER', 7839, CAST('1981-06-09' as DATE), 2450, NULL, 10, 2),
+(7788, 'SCOTT', 'ANALYST', 7566, CAST('1982-12-09' as DATE), 3000, NULL, 20, 1),
+(7839, 'KING', 'PRESIDENT', NULL, CAST('1981-11-17' as DATE), 5000, NULL, 10, 1),
+(7844, 'TURNER', 'SALESMAN', 7698, CAST('1981-09-08' as DATE), 1500, NULL, 30, 3),
+(7876, 'ADAMS', 'CLERK', 7788, CAST('1983-01-12' as DATE), 1100, NULL, 20, 4),
+(7900, 'JAMES', 'CLERK', 7698, CAST('1981-12-03' as DATE), 950, NULL, 30, 5);
+
+select * from EMPY;
+
+INSERT INTO EMPY VALUES
+(7902, 'FORD', 'ANALYST', 7566, CAST('1981-12-03' as DATE), 3000, NULL, 20, 1);
+INSERT INTO EMPY VALUES
+(7934, 'MILLER', 'CLERK', 7782, CAST('1982-01-23' as DATE), 1300, NULL, 10, 3);
+
+
+
+CREATE TABLE DEPT
+(DEPTNO INT, 
+DNAME VARCHAR(14),
+LOC VARCHAR(13));
+
+
+select * from DEPT;
+
+
+INSERT INTO DEPT VALUES (10, 'ACCOUNTING', 'NEW YORK');
+INSERT INTO DEPT VALUES (20, 'RESEARCH', 'DALLAS');
+INSERT INTO DEPT VALUES (30, 'SALES', 'CHICAGO');
+INSERT INTO DEPT VALUES (40, 'OPERATIONS', 'BOSTON');
+
+
+use SQL_PRC;
+show databases;
+Select * from EMPY;
+select * from DEPT;
+
+select distinct JOB from EMPY;
+
+select * from EMPY order by SAL asc;
+
+ALTER table DEPT add constraint foreign key (DEPTNO) references EMPY(DEPTNO);
+
+
+
+-------------------
+
+show databases;
+
+use MYDB;
+
+
+CREATE TABLE EMPY
+(EMPNO int primary key , 
+ENAME VARCHAR(10),
+JOB VARCHAR(9),
+MGR INT,
+HIRDATE DATE,
+SAL INT,
+COMM INT,
+DEPTNO INT,
+GRADE INT);
+
+drop table EMPY;
+
+CREATE TABLE DEPT(
+DEPTNO INT , 
+DNAME VARCHAR(14),
+LOC VARCHAR(13),
+foreign key (DEPTNO) references EMPY(DEPTNO)
+);
+
+drop table DEPT;
+show TABLES;
+
+create table MARKS(
+STD_ID INT unique,
+STD_HALTICK INT primary key,
+STD_NAME VARCHAR(50),
+MATHS INT,
+ENGLISH INT,
+DBMS INT,
+GCP INT,
+KUBERNETS INT,
+TOTAL INT
+);
+
+create table STDINFO (
+STD_ID INT unique KEY,
+STD_NAME VARCHAR(50),
+STD_ADDRS VARCHAR(50),
+STD_GENDER CHAR(1),
+STD_PHON BIGINT,
+STD_AGE INT,
+foreign key (STD_ID) references MARKS(STD_ID)
+);
+
+
+
+use mydb;
+show tables;
+select * from empy;
+
+
+
+CREATE TABLE shop
+(DEPTNO INT, 
+DNAME VARCHAR(14),
+LOC VARCHAR(13));
+
+select * from shop;
+
+INSERT INTO shop VALUES (40, 'shiva raj', 'BOSTON');
+INSERT INTO shop VALUES (40, 'mani deep', 'BOSTON');
+INSERT INTO shop VALUES (40, 'rakesh jella', 'BOSTON');
+INSERT INTO shop VALUES (40, 'santu kumar', 'BOSTON');
+INSERT INTO shop VALUES (40, 'ashak mirza', 'BOSTON');
+INSERT INTO shop VALUES (40, 'sai krishna', 'BOSTON');
+INSERT INTO shop VALUES (40, 'gold burge', 'BOSTON');
+
+
+select upper(loc) from shop;
+select lower(loc) from shop;
+
+select substr(dname, 2,5) from shop;
+
+select * from shop where LENGTH(dname) < 10;
+
+select concat(dname, '-',loc) from shop; 
+
+
+select instr(dname, 'o') from shop;
+
+select * from shop;
+
+
+alter table shop add column persentage varchar(50);
+
+update shop set persentage= '76.00' where dname = 'rakesh jella';
+
+
+select lpad(dname,20 ,'*') from shop;
+
+select rpad(dname,20 ,'*') from shop;
+
+select round(persentage) from shop;
+
+select ceil(persentage) from shop;
+
+select floor(persentage) from shop;
+
+select mod(persentage,3) from shop;
+
+select * from empy;
+
+select *, now() from shop;
+select year(hirdate) from empy;
+select month(hirdate) from empy;
+
+select date_format(HIRDATE,'%w') from EMPY;
+
+select date_format(hirdate, '%m-%y-%a') from empy;
+select date_format(hirdate, '%M-%Y') from empy;
+select date_format(hirdate, '%m-%y') from empy;
+select date_format(hirdate, '%m-%y') from empy;
+select date_format(hirdate, '%m-%y') from empy;
+
+
+select * from SHOP;
+
+drop TABLE SHOP;
+
+CREATE TABLE SHOP
+select  * from EMPY;
+
+insert into SHOP
+select SAL, CAST(MGR as VARCHAR(50)) from SHOP;

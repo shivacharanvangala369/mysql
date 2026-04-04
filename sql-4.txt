@@ -1,0 +1,289 @@
+use sql_prc;
+
+select * FROM EMPY;
+
+select 
+
+
+
+--- 111
+
+select * from EMPY where ENAME LIKE 'A%';
+
+-- 110
+select * from EMPY where MONTH(HIRDATE) = 12;
+
+
+SELECT E.ENAME, E.SAL, A.ENAME, A.NETPAY FROM  ( SELECT ENAME, SAL, COMM, SAL + IFNULL(COMM, 0) AS NETPAY FROM EMPY) AS A
+JOIN EMPY E ON A.SAL = E.SAL
+WHERE A.NETPAY > (SELECT ENAME, SAL, COMM, SAL + IFNULL(COMM, 0) AS NETPAY FROM EMPY)
+
+--- 105
+select E.ENAME, E.JOB,E.SAL, E.GRADE,E.DEPTNO, D.DNAME from EMPY E left join DEPT D on E.DEPTNO = D.DEPTNO
+WHERE E.DEPTNO NOT IN ( SELECT DEPTNO FROM DEPT);  
+ 
+--- 104
+select E.ENAME, M.ENAME as MGR_NAME from EMPY E join EMPY M on E.MGR = M.EMPNO
+where E.MGR !=(select EMPNO from EMPY where JOB = 'PRESIDENT');
+
+ --- 103
+select E.ENAME, E.SAL AS EM_SAL,M.ENAME AS MGR_NAME, M.SAL AS MGER_SAL FROM EMPY E JOIN EMPY M ON E.MGR = M.EMPNO
+WHERE E.SAL > M.SAL;
+
+-- 102
+select ENAME,SAL from EMPY order by SAL limit 5;
+
+-- 101
+select ENAME,DEPTNO, AVG(SAL) as AVG_SAL from EMPY group by ENAME, DEPTNO order by DEPTNO ASC;
+
+-- 100
+
+select * from (select E.*, M.MGR as MGR_NAME from EMPY E join EMPY M  on E.MGR = M.EMPNO 
+where E.SAL < M.SAL) A where     ---- not CCOMPLETED
+
+
+--- 99
+
+select ENAME, SAL, COMM from EMPY where (SAL + IFNULL(null, 0)) >= ALL( select SAL from EMPY);
+
+ 
+---98
+
+select M.ENAME as MGR_NAME, M.SAL as MGR_SAL, AVG(E.SAL) as AVG_SAL_EMP from EMPY M join EMPY E on E.EMPNO = M.MGR 
+group by M.EMPNO
+having M.SAL > AVG(E.SAL);
+
+
+--- 97
+
+select D.DNAME, COUNT(*) as NO_OF_EMP from DEPT D left join EMPY E on D.DEPTNO = E.DEPTNO
+group by D.DNAME
+having COUNT(*) >=3
+order by D.DNAME;
+
+select COUNT(*) as NO_OF_EMP ,DEPTNO from EMPY 
+group by DEPTNO
+having COUNT(*) > 3; --- 96
+
+select ENAME, SAL from EMPY 
+where SAL = (select (MAX(SAL)+MIN(SAL))/2 as AVG_SAL from  EMPY); --- 95
+
+select E.ENAME,D.DNAME,E.SAL FROM EMPY E
+left join DEPT D on E.DEPTNO = D.DEPTNO
+order by D.DNAME asc,E.SAL desc;   -- 94
+
+
+select ENAME, JOB from EMPY where MGR is null or MGR = ''; -- 93
+
+select E.ENAME, E.JOB,E.SAL, E.GRADE, D.DNAME from EMPY E left join DEPT D on E.DEPTNO = D.DEPTNO
+where JOB != 'CLERK' and (select MAX(SAL) from EMPY ) order by SAL DESC;  --- 92
+
+select E.ENAME,E.JOB, D.DNAME,D.DEPTNO,E.SAL,E.GRADE from EMPY E left join DEPT D on E.DEPTNO = D.DEPTNO 
+order by D.DEPTNO; --- 91
+
+select ENAME, SAL FROM EMPY where ENAME = 'FORD' and GRADE = 1;  -- 90
+
+select E.*, M.ENAME as MGR_NAME from EMPY E join EMPY M 
+on E.MGR = M.EMPNO
+where M.ENAME = 'JONES'; --- 89
+
+select E.ENAME,E.JOB, D.DNAME,D.LOC from EMPY E left join DEPT D on E.DEPTNO = D.DEPTNO
+where E.JOB = 'MANAGER';  --- 88
+
+
+select ENAME,GRADE,DEPTNO,HIRDATE from EMPY 
+where DEPTNO = 10 OR DEPTNO = 30
+ and GRADE != 4
+ and year(HIRDATE) > 1982-12-31;  -- 87
+ 
+ select E.*, M.ENAME as MGR_NAME,M.EMPNO,E.EMPNO from EMPY E join EMPY M
+ on E.MGR = M.EMPNO
+ where E.SAL > M.SAL;  --- 86
+ 
+ select E.ENAME, E.SAL, E.DEPTNO,E.COMM,D.LOC FROM EMPY E left join DEPT D on E.DEPTNO = D.DEPTNO
+ where E.SAL between 2000 and 5000
+  and  D.LOC= 'CHICAGO'; --- 85
+  
+ select E.*, D.DNAME FROM EMPY E left join DEPT D on E.DEPTNO = D.DEPTNO
+ where D.DNAME != 'SALES';   --- 84
+ 
+  select E.*, D.DNAME FROM EMPY E left join DEPT D on E.DEPTNO = D.DEPTNO order by D.DNAME; --- 83
+  
+  select ENAME, SAL,(SAL*1.2) as NEW_SAL from EMPY;  --- 82
+  
+  select E.ENAME, M.ENAME as MGR_NAME from EMPY E join EMPY M on E.MGR = M.EMPNO
+  where M.ENAME = 'BLAKE'; --- 81
+  
+  select DEPTNO ,COUNT(*) as NO_OF_EMP  from EMPY group by DEPTNO ORDER by NO_OF_EMP DESC; --- 80
+  
+  select D.DNAME,E.JOB,E.GRADE,COUNT(*) as NO_OF_EMP from EMPY E left join DEPT D on E.DEPTNO = E.DEPTNO
+  where E.JOB = 'CLERK'
+  group by D.DNAME,E.GRADE,E.JOB
+  HAVING COUNT(*) >= 2; --- 79
+  
+  select GRADE, COUNT(*) as NO_OF_EMP, MAX(SAL) as TO_SAL  from EMPY group by GRADE;  --- 78
+  
+  select DEPTNO,COUNT() as NO_OF_EMP from EMPY group by DEPTNO having COUNT() >= 2; --- 77
+  
+select MGR, COUNT(*) as NO_OF_EMP from EMPY group BY MGR order by MGR;  --- 76
+
+select DEPTNO,JOB, COUNT(*) as NO_OF_EMP from EMPY  group by DEPTNO,JOB order by deptno ; -- 75
+
+select * from EMPY where DEPTNO = 20 and SAL > (select AVG(SAL) from EMPY where DEPTNO = 20); -- 74
+
+select AVG(SAL) from EMPY where JOB = 'CLERK' --- 73
+
+select SUM(SAL) from EMPY where GRADE =3; -- 72
+
+select SAL*12 as ANNSAL, JOB ,HIRDATE from EMPY where year(HIRDATE) = 1981 order by JOB ASC;  --- 71
+
+select JOB,SUM(SAL) from EMPY group by JOB having JOB = 'MANAGER'; --- 70
+
+select SUM(SAL) from EMPY where JOB= 'MANAGER' --- 70
+
+
+
+
+select ENAME, GRADE,HIRDATE from EMPY where YEAR(HIRDATE) < (select HIRDATE from EMPY where ENAME = 'KING') order by HIRDATE DESC limit 1
+
+--- 69
+
+select * from EMPY where year(HIRDATE) = 1981 and JOB = (select JOB from EMPY where year(HIRDATE) = 1981 order by HIRDATE ASC limit 1);
+ --- 68
+ 
+select * from EMPY where year(HIRDATE) = 1981 order by HIRDATE ASC limit 1  --- 67
+
+
+select E.ENAME,E.GRADE,E.SAL,D.LOC from EMPY E left join DEPT D on E.DEPTNO = D.DEPTNO
+where E.GRADE between 3 and 5
+ and D.DNAME 1= 'PRASIDENT'    ---  66 NEED to LEARN
+ and E.SAL > (select MAX(SAL) from EMPY where 
+ 
+ 
+select ENAME, HIRDATE, COUNT(*) as NOE from EMPY group by  year(HIRDATE) = all (select E.HIRDATE from EMPY E join EMPY M on E.MGR = M.EMPNO
+where E.MGR = M.EMPNO order by E.HIRDATE desc ); --- 65 NEED to LEARN
+
+ 
+select E.ENAME,E.GRADE,E.HIRDATE,D.LOC from EMPY E left join DEPT D on E.DEPTNO = D.DEPTNO
+where E.GRADE = 3 
+and YEAR(E.HIRDATE) > (select HIRDATE from EMPY where GRADE = 3 order by HIRDATE DESC limit 1)
+and D.LOC = 'CHICAGO';    ----64 NEED to CONFIRM
+
+
+
+
+select ENAME,HIRDATE,GRADE from (select E.ENAME,E.GRADE,E.HIRDATE,D.LOC from EMPY E left join DEPT D on E.DEPTNO = D.DEPTNO
+where D.LOC = 'CHICAGO') A where GRADE = 3 order by HIRDATE DESC  limit 1 ;  --- 64 
+
+select E.ENAME,E.JOB,D.DNAME,MAX(E.SAL) as SAL from EMPY E left join DEPT D on E.DEPTNO  = D.DEPTNO
+group by E.ENAME,D.DNAME,E.JOB
+having D.DNAME = 'SALES'
+order by SAL desc
+limit 1;   --- when WE CONSIDER DEPT NAME SALES
+
+select * from EMPY where SAL = (select MAX(SAL) from EMPY where JOB = 'SALESMAN'); --- 63 when WE CONSIDER JOB SALESMAN
+ 
+ 
+select MAX(SAL)as SAL ,ENAME  from  EMPY group by ENAME order by SAL desc limit 1; --- 62
+
+select MAX(SAL) from EMPY;  --- 61
+
+SELECT E1.EMPNO, E1.ENAME, E1.SAL
+FROM EMPY E1
+LEFT JOIN EMPY E2 ON E1.EMPNO = E2.EMPNO   --- 60 NEED to LEARN
+WHERE E2.EMPNO IS NULL;
+
+select E.ENAME,E.SAL,D.DNAME,E.DEPTNO,E.JOB from  EMPY E left  join DEPT D on E.DEPTNO = D.DEPTNO
+where E.ENAME =  ( select ENAME from EMPY where DEPTNO = 10 limit 1 )
+ and E.SAL not in  ( select SAL from EMPY where DEPTNO = 20 )   --- 59 NEED CONFIRMATION
+ 
+select * from EMPY E where JOB in (select JOB from EMPY where ENAME = 'SMITH' or ENAME = 'ALLEN'); --- 58 
+select * from EMPY E where JOB in (select JOB from EMPY where ENAME IN ('SMITH','ALLEN'))  ;
+select * from EMPY E where JOB in (select JOB from EMPY where ENAME = 'SMITH' or 'ALLEN');
+
+
+select E.ENAME,E.SAL,E.HIRDATE,D.DNAME,TIMESTAMPDIFF(YEAR, E.HIRDATE, CURRENT_DATE()) AS EXP from EMPY E LEFT join DEPT D on E.DEPTNO = D.DEPTNO
+where E.GRADE in (3,4)
+ and D.DNAME in ('ACCOUNTING', 'RESEARCH')
+ and E.SAL > (select SAL from EMPY where ENAME = 'ALLEN')
+ and TIMESTAMPDIFF(YEAR, E.HIRDATE, CURRENT_DATE()) > (select TIMESTAMPDIFF(YEAR, HIRDATE, CURRENT_DATE()) from EMPY where ENAME = 'SMITH')
+order by exp asc;   --- 57
+
+select ENAME , TIMESTAMPDIFF(YEAR, HIRDATE, CURRENT_DATE()) FROM EMPY where TIMESTAMPDIFF(YEAR, HIRDATE, CURRENT_DATE()) > (select TIMESTAMPDIFF(YEAR, HIRDATE, CURRENT_DATE()) from EMPY where ENAME=  'BLAKE')
+
+select ENAME ,HIRDATE from EMPY where DATE(HIRDATE) < (select DATE(HIRDATE) from EMPY where ENAME = 'BLAKE')  ---56 both ABOVE and BELOW
+
+select * from EMPY where SAL >(select SUM(SAL + COMM) as SAL from EMPY where  JOB = 'SALESMAN'); -- 55
+
+select * from EMPY where JOB = ( select JOB from EMPY where ENAME = 'MILLER') or SAL > ( select SAL from EMPY where  ENAME = 'ALLEN')
+ --- 54
+ 
+select * from EMPY where SAL IN (select  SAL from EMPY where ENAME  in ('FORD','SMITH')) order by SAL desc; --- 53
+
+select * from EMPY where DEPTNO = 20 and JOB IN (select JOB from EMPY where DEPTNO = 10); --- 52
+
+select M.ENAME as MGR,E.ENAME,TIMESTAMPDIFF(YEAR, E.HIRDATE, CURRENT_DATE()) as Eexp, 
+TIMESTAMPDIFF(YEAR, M.HIRDATE, CURRENT_DATE()) as Mexp from EMPY E join EMPY M on E.MGR = M.EMPNO   -- 51 NEED to check
+
+select * from EMPY where DATE(HIRDATE) < (select DATE(HIRDATE) from EMPY where ENAME = 'KING') order by HIRDATE ASC; --- 50
+
+select * from EMPY where JOB = (select JOB from EMPY where ENAME = 'ALLEN'); --- 49
+
+select * from EMPY where SAL > (select SAL from EMPY where ENAME = 'BLAKE'); -- 48
+
+select EMPNO, ENAME,DEPTNO from EMPY; -- 47
+
+select EEMPNO,E.ENAME,D.DNAME,E.DEPTNO, from  EMPY E left  join DEPT D on E.DEPTNO = D.DEPTNO ;
+
+
+
+select E.*,D.DNAME,D.LOC from EMPY E join DEPT D on E.DEPTNO = D.DEPTNO
+where D.DNAME in ('ACCOUNTING', 'RESEARCH')     
+order by E.DEPTNO asc;   -- 39
+
+select M.ENAME as MGR,  E.ENAME from EMPY E join EMPY M on E.MGR = M.EMPNO
+where E.MGR = M.EMPNO; -- 34
+
+select * from EMPY where DEPTNO =! '78%' --- 32 NEED to LEARN
+
+select * from EMPY where SAL = '--00' --- 26 NEED to LEARN
+
+
+select e.empno, e.ename,e.job,e.grade,d.dname,d.loc,e.hirdate  from EMPY E left join DEPT D on E.DEPTNO = D.DPTNO 
+where e.grade between 3 and 4
+ and D.DNAME NOT LIKE 'op%'
+ and D.DNAME not LIKE '%S'
+ and E.JOB LIKE '%A%
+ and date(e.hirdate) between 19181-01-01 and 1981-12-31
+ and date(e.hirdate) not in (3,9)
+ and e.sal NOT LIKE '%00'
+ order by e.grade asc;
+
+
+Select e.empno, e.ename,e.job,e.grade,d.dname,d.loc,e.hirdate 
+from empy e 
+left join  dept d on e.deptno = d.deptno
+where E.GRADE between 2 and 4
+ and D.DNAME not like 'OP%'
+ and D.DNAME like '%S'
+ and E.JOB like '%A%'
+ and year(E.HIRDATE) = 1981
+ and month(E.HIRDATE) not in (3,9)
+ and E.SAL not like '%00'    --------- 46
+order by E.GRADE asc;
+
+select * from e.EMPY,D.DNAME,D.LOC
+from EMPY E
+join DEPT D on E.DEPTNO = D.DEPTNO
+where D.DNAME in ('ACCOUNTING', 'RESEARCH')     
+order by E.DEPTNO asc;
+
+
+
+select * FROM EMPY;
+
+select * from DEPT;
+
+create database my_GA;
+
+Select * from EMPY;

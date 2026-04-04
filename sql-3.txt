@@ -1,0 +1,229 @@
+use my_GA;
+
+
+CREATE TABLE EMPY
+(EMPNO int , ENAME VARCHAR(10), JOB VARCHAR(9), MGR int, HIREDATE date, SAL int, COMM int, DEPTNO int, GRADE int);
+
+select * from EMPY;
+select * from deptno;
+
+
+INSERT INTO EMPY VALUES
+(7369, 'SMITH', 'CLERK', 7902, CAST('1980-12-17' as DATE), 800, NULL, 20, 5);
+INSERT INTO EMPY VALUES
+(7499, 'ALLEN', 'SALESMAN', 7698, CAST('1981-02-20' as DATE), 1600, 300, 30, 3);
+INSERT INTO EMPY VALUES
+(7521, 'WARD', 'SALESMAN', 7698, CAST('1981-02-22' as DATE), 1250, 500, 30, 4);
+INSERT INTO EMPY VALUES
+(7566, 'JONES', 'MANAGER', 7839, CAST('1981-04-02' as DATE), 2975, NULL, 20, 2);
+INSERT INTO EMPY VALUES
+(7654, 'MARTIN', 'SALESMAN', 7698, CAST('1981-09-28' as DATE), 1250, 1400, 30, 4);
+INSERT INTO EMPY VALUES
+(7698, 'BLAKE', 'MANAGER', 7839, CAST('1981-05-01' as DATE), 2850, NULL, 30, 2);
+
+
+INSERT INTO EMPY VALUES
+(7782, 'CLARK', 'MANAGER', 7839, CAST('1981-06-09' as DATE), 2450, NULL, 10, 2);
+INSERT INTO EMPY VALUES
+(7788, 'SCOTT', 'ANALYST', 7566, CAST('1982-12-09' as DATE), 3000, NULL, 20, 1);
+INSERT INTO EMPY VALUES
+(7839, 'KING', 'PRESIDENT', NULL, CAST('1981-11-17' as DATE), 5000, NULL, 10, 1);
+INSERT INTO EMPY VALUES
+(7844, 'TURNER', 'SALESMAN', 7698, CAST('1981-09-08' as DATE), 1500, NULL, 30, 3);
+INSERT INTO EMPY VALUES
+(7876, 'ADAMS', 'CLERK', 7788, CAST('1983-01-12' as DATE), 1100, NULL, 20, 4);
+INSERT INTO EMPY VALUES
+(7900, 'JAMES', 'CLERK', 7698, CAST('1981-12-03' as DATE), 950, NULL, 30, 5);
+
+
+INSERT INTO EMPY VALUES
+(7902, 'FORD', 'ANALYST', 7566, CAST('1981-12-03' as DATE), 3000, NULL, 20, 1);
+INSERT INTO EMPY VALUES
+(7934, 'MILLER', 'CLERK', 7782, CAST('1982-01-23' as DATE), 1300, NULL, 10, 3);
+
+CREATE TABLE DEPT
+(DEPTNO INT, DNAME VARCHAR(14), LOC varchar(13));
+
+SELECT * FROM DEPT;
+
+
+INSERT INTO DEPT VALUES (10, 'ACCOUNTING', 'NEW YORK');
+INSERT INTO DEPT VALUES (20, 'RESEARCH', 'DALLAS');
+INSERT INTO DEPT VALUES (30, 'SALES', 'CHICAGO');
+INSERT INTO DEPT VALUES (40, 'OPERATIONS', 'BOSTON');
+
+
+
+ --- 1
+ Select * from EMPY;
+ 
+ --- 2
+ 
+ SELECT distinct job from empy;
+ select distinct sal from empy;
+ 
+ --- 3
+ 
+ select * from empy order by sal  asc;
+ 
+ select * from empy order by sal desc;
+ 
+ --- 4 
+ 
+ select * from empy order by deptno asc , job desc;
+ 
+ --- 5
+ 
+ select distinct job from empy order by job desc;
+ 
+ --- 6
+ 
+ select MGR from empy;
+ 
+ --- 7
+ select * from empy where hiredate < year(1981);
+ 
+ --- 8
+ 
+ select empno, ename, sal, (sal/30) as d_sal, (sal * 12) as ansal from empy order by ansal;
+ 
+ --- 9
+ 
+ select MGR , empno from empy;
+ 
+select  empno, ename , mgr from empy where empno not in mgr;
+
+select empno, ename , job, hiredate, mgr from empy;
+
+
+--- 10
+
+select empno, ename, job, hiredate, TIMESTAMPDIFF(YEAR, hiredate, CURDATE()) AS experience from empy where  mgr = '7839';
+
+--- 11
+
+
+select * from empy where comm > sal;
+
+--- 12
+
+select * from empy where month(HIReDATE) > 6 order by job desc;
+
+--- 13
+
+select ename, empno, hiredate , job, sal,  TIMESTAMPDIFF(YEAR, hiredate, CURDATE())  as exp from empy where (sal/30) > 100;
+
+--- 14
+select * from empy where job in ('clerk' , 'analyst');
+
+
+---- 15
+
+select * from empy where date(hiredate) in ('1981-05-01' , '1981-12-03', '1980-01-19');
+
+--- 16
+
+select * from empy where deptno in ('10' , '20');
+
+
+--- 17
+
+select * from empy where year(hiredate) = '1981';
+
+--- 18
+select * from empy where year(hiredate) = '1981' and month(hiredate) = '09';
+
+
+--- 19
+select * from empy where (sal * 12) between 2200 and 45000;
+
+--- 20
+
+select * from empy where char_length(ename) =5 ;
+
+--- 21
+
+select * from empy where ename like 's%' and char_length(ename) = 5;
+
+--- 22
+
+select * from empy where substring(ename, 3, 1) = 'r' and char_length(ename) = 3;
+
+--- 23
+
+select * from empy where  char_length(ename) = 5 and ename like	'a%' and ename like  '%n' ;
+
+--- 24
+
+select * from empy where month(hiredate) = '01';
+
+--- 25
+
+
+SELECT  ename, MONTHNAME(hiredate) AS mont FROM empy WHERE SUBSTRING(MONTHNAME(hiredate), 2, 1) = 'a';
+
+--- 26
+
+select * from empy where char_length(CAST(sal AS CHAR)) = '4' and cast(sal as char) like '%0';
+
+
+
+--- 27
+
+SELECT *
+FROM empy
+WHERE ename LIKE '%ll%';
+
+--- 30
+
+
+select * from empy where job not in ('PRESIDENT' , 'MANAGER'); 
+
+--- 32
+SELECT *
+FROM empy
+WHERE empno not LIKE '%87%';
+
+
+--- 33
+
+select * from DEPT;
+select * from empy where MGR in ('7566', '7689');
+
+--- dup
+
+SELECT ename, COUNT(*) AS count_occurrences
+FROM empy
+GROUP BY job
+HAVING COUNT(*) > 1;
+
+SELECT job, COUNT(*) AS count_occurrences
+FROM empy
+GROUP BY job
+HAVING COUNT(*) > 1;
+
+select COUNT(*) as NUM_OF_EMP, D.DNAME from EMPY E
+left join DEPT D
+on E.DEPTNO = D.DEPTNO 
+GROUP BY D.DNAME
+having COUNT(*) >=3
+order by D.DNAME;
+
+
+with mg as ( 
+select  empno as e from empy where ename = 'jones')
+
+select e.empno, e.ename from empy e join mg m on e.mgr = m.e;
+
+(select mgr  from empy where ename = 'jones');
+
+
+select e.job, d.dname, count(*) as numm_of_emp
+ from empy e join  dept d on e.deptno = d.deptno  group by d.dname, e.job  having  count(*) > 1;
+
+ 
+ 
+
+select e.ename, e.job, e.mgr, e.deptno , d.loc from empy e join dept d on e.deptno = d.deptno where d.loc = "chicago";
+
+select e.ename, e.job, e.deptno, e.grade , d.loc, d.deptno from empy e join dept  d on e.deptno = d.deptno where d.loc = "chicago" and e.grade in (2,3);
