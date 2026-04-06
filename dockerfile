@@ -5,3 +5,4 @@ LABEL COURSE = "Docker" \
       TRAINER = "siva" \
       DURATION = "120HRS" \
       AUTHOR = "shiva"
+EXPOSE 80
